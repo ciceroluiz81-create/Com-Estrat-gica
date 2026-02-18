@@ -1,0 +1,7 @@
+{
+  "name": "COTER COM ESTRT - Social Media Factory",
+  "description": "Plataforma institucional para geração de conteúdo estratégico do Comando de Operações Terrestres, focada em operacionalidade, prontidão e eficácia estatal.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
