@@ -10,6 +10,16 @@ interface DeliverableCardProps {
 }
 
 export const DeliverableCard: React.FC<DeliverableCardProps> = ({ title, icon, content, badge, imageUrl }) => {
+  // Função para converter markdown básico em HTML seguro para exibição
+  // Mantém tags HTML enviadas pela IA como <u>
+  const formatContent = (text: string) => {
+    let formatted = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Negrito Markdown
+      .replace(/\n/g, '<br />'); // Quebras de linha
+    
+    return { __html: formatted };
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden flex flex-col h-full">
       <div className="bg-gray-50 px-6 py-4 border-b border-gray-100 flex items-center justify-between">
@@ -33,7 +43,6 @@ export const DeliverableCard: React.FC<DeliverableCardProps> = ({ title, icon, c
             alt="Generated Visual Content" 
             className="w-full h-full object-cover shadow-inner"
           />
-          {/* Overlay informativo sobre o template */}
           <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 flex flex-col justify-end h-1/3 opacity-0 group-hover:opacity-100 transition-opacity">
             <p className="text-[9px] text-yellow-400 font-black uppercase tracking-widest">Layout Institucional Aplicado</p>
             <p className="text-[8px] text-white/70 font-mono uppercase">Dimensão: 1080x1080 | Identidade: Caderno 2025</p>
@@ -45,14 +54,17 @@ export const DeliverableCard: React.FC<DeliverableCardProps> = ({ title, icon, c
       )}
 
       <div className="p-6 flex-grow">
-        <div className="prose prose-sm max-w-none whitespace-pre-wrap text-gray-700 leading-relaxed font-normal">
-          {content}
-        </div>
+        <div 
+          className="prose prose-sm max-w-none text-gray-700 leading-relaxed font-normal"
+          dangerouslySetInnerHTML={formatContent(content)}
+        />
       </div>
       <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
         <button 
           onClick={() => {
-            navigator.clipboard.writeText(content);
+            // Copia o texto limpo para o clipboard
+            const plainText = content.replace(/<[^>]*>?/gm, '').replace(/\*\*/g, '');
+            navigator.clipboard.writeText(plainText);
             alert('Conteúdo copiado para a área de transferência.');
           }}
           className="text-xs font-bold text-emerald-800 hover:text-emerald-900 flex items-center gap-1 transition-colors"

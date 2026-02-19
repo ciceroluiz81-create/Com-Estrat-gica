@@ -25,7 +25,6 @@ export async function generateOperationalImage(params: GenerationParams, forcedT
 
   const displayTitle = forcedTitle || params.topic;
 
-  // Prompt ultra-específico para o layout com o novo logo
   const prompt = `
     ${styleInstruction}
     ASSUNTO PRINCIPAL: Uma cena do Exército Brasileiro realizando: "${params.topic}".
@@ -34,31 +33,22 @@ export async function generateOperationalImage(params: GenerationParams, forcedT
     1. A imagem deve ser composta como um cartaz oficial de 1080x1080.
     2. FUNDO: A cena operacional descrita acima ocupando toda a área.
     3. MÁSCARA INFERIOR: Gradiente preto sólido no terço inferior para dar legibilidade aos textos.
-    4. SÍMBOLO DE REFERÊNCIA (ÚNICO): Posicione o Escudo do COTER à esquerda no terço inferior. 
-       DESCRIÇÃO DO ESCUDO: 
-       - Topo: Retângulo vermelho horizontal com a palavra "COTER" em letras brancas de forma robusta.
-       - Corpo: Escudo com borda amarela, partido diagonalmente da esquerda superior para a direita inferior.
-       - Parte Superior Direita (Fundo Azul): Uma mão (manopla) armada de ouro segurando uma espada de prata/ouro apontada para cima.
-       - Parte Inferior Esquerda: Padrão xadrez em cores verde e amarelo.
-    5. TEXTO LINHA DE ESFORÇO: Escreva "${params.linha}" em letras AMARELAS vibrantes (#FFD700), logo à direita do escudo e acima do título.
-    6. TÍTULO DA MISSÃO: Escreva "${displayTitle}" em letras BRANCAS (#FFFFFF) grandes, em negrito, logo abaixo do texto amarelo.
-    7. SLOGAN FINAL: Na base inferior centralizada, em letras brancas menores, a frase: "A VITÓRIA TERRESTRE COMEÇA AQUI!".
+    4. TEXTO LINHA DE ESFORÇO: Escreva "${params.linha}" em letras AMARELAS vibrantes (#FFD700) no canto inferior esquerdo, sobre o gradiente.
+    5. TÍTULO DA MISSÃO: Escreva "${displayTitle}" em letras BRANCAS (#FFFFFF) grandes, em negrito, logo abaixo do texto da Linha de Esforço, também alinhado à esquerda.
+    6. SLOGAN FINAL: Na base inferior centralizada, em letras brancas menores: "A VITÓRIA TERRESTRE COMEÇA AQUI!".
     
-    CONTEXTO DOUTRINÁRIO: ${DOUTRINA_COTER[params.linha]}.
-    ESTILO: Prontidão, profissionalismo e soberania.
+    ESTILO: Prontidão, profissionalismo e soberania conforme persona TC Luiz Alves.
+    
+    IMPORTANTE: NÃO inclua brasões, escudos, logomarcas ou símbolos institucionais (como o escudo do COTER) na imagem. O foco deve ser puramente na cena operacional e nos textos descritos.
   `;
 
   const response = await ai.models.generateContent({
     model: IMAGE_MODEL,
     contents: {
-      parts: [
-        { text: prompt }
-      ]
+      parts: [{ text: prompt }]
     },
     config: {
-      imageConfig: {
-        aspectRatio: "1:1"
-      }
+      imageConfig: { aspectRatio: "1:1" }
     }
   });
 
@@ -82,46 +72,47 @@ export async function generateOperationalContent(params: GenerationParams): Prom
     : "";
 
   const systemInstruction = `
-    Atue como Oficial Superior (Doutor) do Exército Brasileiro e Especialista em Comunicação Estratégica do Comando de Operações Terrestres.
-    Seu tom é ${toneDesc}.
+    IDENTIDADE: Você é o Tenente-Coronel Luiz Alves (45 anos), Chefe da Comunicação Estratégica Operacional do COTER (Persona 2026).
+    PERFIL PROFISSIONAL: Produtor Textual sênior com rigorosa formação em ECEME e Letras.
+    MISSÃO: Garantir alinhamento às Diretrizes do Comandante, antecipar riscos reputacionais e traduzir doutrina para linguagem civil COM EXCELÊNCIA GRAMATICAL.
+    
+    REQUISITO CRÍTICO DE LINGUAGEM:
+    - O conteúdo deve seguir a NORMA CULTA do Português Brasileiro (Padrão ABNT para documentos técnicos quando couber).
+    - ERROS DE PORTUGUÊS SÃO INADMISSÍVEIS. Faça uma revisão textual rigorosa antes de gerar a resposta.
+    - O tom é institucional, acessível, preventivo e sólido.
+    
+    PRINCÍPIO ESTRUTURAL (FLUXO):
+    Linha de Esforço -> Ideia-Força -> Base Documental -> Tradução Estratégica -> Controle de Risco -> Métrica de Impacto.
 
     ${customDoctrineContext}
 
-    RESTRIÇÕES E REGRAS DE OURO:
+    REGRAS DE OURO:
     1. PROIBIÇÃO LITERAL: NUNCA escreva os termos "linha de esforço" ou "ideia-força".
-    2. DESTAQUE E INTEGRAÇÃO: Você DEVE integrar o sentido original da Ideia-Força selecionada ("${params.ideiaForca}") nos textos. NÃO é necessário copiar o texto literalmente, mas a essência e o significado devem ser preservados de forma clara e criativa. O trecho que expressa esse sentido deve ser destacado em **negrito** (Markdown: **texto**).
-    3. SIMPLICIDADE SOCIAL: Para Instagram e Facebook, use uma linguagem simples, direta e de fácil entendimento para o público civil.
-    4. PROIBIÇÃO DE SLOGAN: NUNCA use a frase "A Vitória Terrestre Começa Aqui!" no corpo do texto (ela é exclusiva do layout visual).
-    5. FONTES DE CONSULTA: Identifique e liste explicitamente quais manuais, leis ou diretrizes foram fundamentais para a criação deste conteúdo.
+    2. DESTAQUE E INTEGRAÇÃO: Integre o sentido da Ideia-Força selecionada ("${params.ideiaForca}"). O trecho que expressa esse sentido DEVE ser destacado obrigatoriamente em **negrito e sublinhado** (Use a tag HTML: **<u>texto</u>**).
+    3. REVISÃO TEXTUAL: Atue como revisor ortográfico e sintático impecável. Evite gírias inapropriadas ou construções ambíguas.
+    4. NÃO POLÍTICO: Jamais comente decisões políticas ou entre em debates ideológicos.
+    5. NÃO PERSONALIZE: Foco na Instituição.
 
     INTEGRAÇÃO OBRIGATÓRIA:
-    - O conteúdo DEVE combinar organicamente o conceito da Linha de Esforço base (${params.linha}) com o sentido da Ideia-Força específica (${params.ideiaForca}).
+    - Mesclar Linha de Esforço (${params.linha}) com Ideia-Força (${params.ideiaForca}).
+    - Fontes oficiais apenas.
 
-    REQUISITOS DE FORMATAÇÃO:
-    - Instagram: Linguagem simples. Legenda com no mínimo TRÊS parágrafos. O primeiro parágrafo já deve conter o destaque em **negrito**.
-    - WhatsApp: Mensagens rápidas e objetivas, com o sentido da Ideia-Força em **negrito**.
-    - Matéria Jornalística: Título impactante (articleTitle). Mantenha o tom formal e analítico, com a essência da Ideia-Força em **negrito**.
-
-    CONTEXTO DOUTRINÁRIO OFICIAL 2025: ${DOUTRINA_COTER[params.linha]}.
-    VETOR ESTRATÉGICO / IDEIA-FORÇA SELECIONADA (REFERÊNCIA): ${params.ideiaForca}.
+    REQUISITOS DE SAÍDA:
+    - instagram: Script carrossel + Legenda (3 parágrafos, 1º parágrafo com **<u>destaque</u>** estratégico).
+    - whatsapp: Mensagem institucional objetiva com **<u>destaque</u>**.
+    - article: Texto formal, analítico, focado em estabilidade institucional.
+    - riskAnalysis: Breve análise de riscos reputacionais e mitigação.
+    - impactMetrics: Sugestão de KPIs.
+    - sources: Lista de manuais e leis utilizadas.
   `;
 
-  const imageParts = params.images.map(img => ({
-    inlineData: {
-      data: img.data,
-      mimeType: img.mimeType
-    }
-  }));
-
-  const prompt = `Gere o conteúdo estratégico literário sobre: "${params.topic}". 
-    Certifique-se de manter o sentido da ideia-força "${params.ideiaForca}" de forma fluida; destaque a parte essencial em **negrito** e utilize uma linguagem de fácil compreensão para as redes sociais.
-    Indique também as fontes de consulta utilizadas.`;
+  const prompt = `Gere o conteúdo estratégico literário como Produtor Textual oficial, seguindo rigorosamente as normas da língua portuguesa, sobre o tópico: "${params.topic}".`;
 
   const response = await ai.models.generateContent({
     model: TEXT_MODEL,
     contents: { 
       parts: [
-        ...imageParts,
+        ...params.images.map(img => ({ inlineData: { data: img.data, mimeType: img.mimeType } })),
         { text: prompt }
       ] 
     },
@@ -131,22 +122,19 @@ export async function generateOperationalContent(params: GenerationParams): Prom
       responseSchema: {
         type: Type.OBJECT,
         properties: {
-          instagram: { type: Type.STRING, description: "Instagram script with simple language. Essential meaning of Ideia-força in bold." },
-          whatsapp: { type: Type.STRING, description: "WhatsApp operational messages. Essential meaning of Ideia-força in bold." },
-          article: { type: Type.STRING, description: "Formal article with proper structure. Essential meaning of Ideia-força in bold." },
-          articleTitle: { type: Type.STRING, description: "O título curto e impactante da matéria de imprensa (será usado no template visual)." },
-          sources: { 
-            type: Type.ARRAY, 
-            items: { type: Type.STRING },
-            description: "List of doctrine sources and legal references used for the text."
-          }
+          instagram: { type: Type.STRING },
+          whatsapp: { type: Type.STRING },
+          article: { type: Type.STRING },
+          articleTitle: { type: Type.STRING },
+          riskAnalysis: { type: Type.STRING },
+          impactMetrics: { type: Type.STRING },
+          sources: { type: Type.ARRAY, items: { type: Type.STRING } }
         },
-        required: ["instagram", "whatsapp", "article", "articleTitle", "sources"]
+        required: ["instagram", "whatsapp", "article", "articleTitle", "riskAnalysis", "impactMetrics", "sources"]
       }
     }
   });
 
   const jsonStr = (response.text || '{}').trim();
-  const content = JSON.parse(jsonStr);
-  return content as SocialMediaContent;
+  return JSON.parse(jsonStr) as SocialMediaContent;
 }

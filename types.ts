@@ -136,7 +136,7 @@ export const IDEIAS_FORCA_MAP: Record<LinhaDeEsforco, string[]> = {
     "c. Potencializar divulgação das características da profissão militar",
     "d. Necessidade de um Sistema de Saúde autônomo e independente",
     "e. Ampliar relações com meios de comunicação e Academia",
-    "f. Fomentar a percepção de que o EB é imprescindível à Nação",
+    "f. Fomentar a perception de que o EB é imprescindível à Nação",
     "g. Benefícios gerados ao País em virtude do sacrifício pessoal",
     "h. Entregas à sociedade dependente de sacrifícios pessoais",
     "i. Singularidades inerentes aos tempos de paz, crise e guerra",
@@ -149,6 +149,8 @@ export interface SocialMediaContent {
   whatsapp: string;
   article: string;
   articleTitle: string;
+  riskAnalysis: string;
+  impactMetrics: string;
   sources: string[];
   imageUrl?: string;
 }
