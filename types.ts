@@ -69,7 +69,7 @@ export const IDEIAS_FORCA_MAP: Record<LinhaDeEsforco, string[]> = {
     "p. Incentivar o interesse pela divulgação das inúmeras missões internacionais"
   ],
   [LinhaDeEsforco.COESAO]: [
-    "a. Estreitar relações de camaradagem e união entre Ativa e Veteranos",
+    "a. Estreitar relações de camaradagem e uniau entre Ativa e Veteranos",
     "b. Pertencimento a uma Instituição cuja atuação e história ampliam valor pessoal",
     "c. Culto aos valores e preservação do patrimônio histórico e cultural",
     "d. Ideal de pertencimento a uma Instituição de Estado presente em momentos de relevância",
@@ -152,6 +152,8 @@ export interface SocialMediaContent {
   riskAnalysis: string;
   impactMetrics: string;
   sources: string[];
+  sourceLinks?: { title: string; uri: string }[];
+  conflictWarnings?: string;
   imageUrl?: string;
 }
 
