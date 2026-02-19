@@ -114,27 +114,29 @@ const App: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#f3f4f6]">
       <header className="military-gradient text-white py-12 px-6 shadow-[0_10px_30px_rgba(0,0,0,0.4)] relative overflow-hidden border-b border-emerald-900/50">
-        {/* Camada tática de fundo */}
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         <div className="absolute top-0 right-0 w-96 h-96 bg-emerald-500/10 rounded-full -mr-48 -mt-48 blur-[100px]"></div>
         
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-10 relative z-10">
           <div className="flex flex-col md:flex-row items-center gap-10">
-            <div className="relative group">
-              {/* Brilho pulsante atrás do brasão */}
+            <div className="relative group min-w-[144px]">
               <div className="absolute -inset-4 bg-emerald-500/20 rounded-full blur-2xl opacity-40 group-hover:opacity-70 transition duration-1000 animate-pulse"></div>
               
               {!logoError ? (
                 <img 
                   src={COTER_LOGO_URL} 
                   alt="Brasão Oficial COTER" 
-                  onError={() => setLogoError(true)}
+                  onError={() => {
+                    console.error("Erro ao carregar o logo do COTER.");
+                    setLogoError(true);
+                  }}
+                  loading="eager"
                   className="relative w-36 h-36 md:w-44 md:h-44 object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.6)] transition-transform duration-700 hover:scale-105 cursor-help"
                 />
               ) : (
-                <div className="relative w-36 h-36 md:w-44 md:h-44 bg-emerald-950/80 rounded-full flex items-center justify-center border-4 border-emerald-500/30 text-emerald-400 shadow-2xl">
+                <div className="relative w-36 h-36 md:w-44 md:h-44 bg-emerald-950/80 rounded-full flex flex-col items-center justify-center border-4 border-emerald-500/30 text-emerald-400 shadow-2xl">
                   <Icons.Shield />
-                  <span className="absolute -bottom-4 text-[10px] font-black uppercase text-center bg-emerald-900 border border-emerald-500/50 px-3 py-1 rounded shadow-lg tracking-widest">Logo Recovers</span>
+                  <span className="text-[9px] font-black uppercase mt-1 tracking-tighter">COTER BRASÃO</span>
                 </div>
               )}
             </div>

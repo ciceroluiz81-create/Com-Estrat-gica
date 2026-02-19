@@ -8,8 +8,8 @@ export const COLORS = {
   EMERALD_GLOW: '#10b981',
 };
 
-// URL de alta definição para o Brasão Oficial do COTER
-export const COTER_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/1/11/Comando_de_Opera%C3%A7%C3%B5es_Terrestres_%28COTER%29.png";
+// URL de alta compatibilidade para o Brasão Oficial do COTER (Versão Thumbnail Otimizada)
+export const COTER_LOGO_URL = "https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/Comando_de_Opera%C3%A7%C3%B5es_Terrestres_%28COTER%29.png/512px-Comando_de_Opera%C3%A7%C3%B5es_Terrestres_%28COTER%29.png";
 
 export const Icons = {
   Shield: () => (
